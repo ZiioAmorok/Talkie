@@ -1,12 +1,33 @@
 import { ThemeProvider } from "./contexts/ThemeContext";
-import AppRoutes from "./routes/AppRoutes";
-import { BrowserRouter as Router } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Chat from "./pages/Chat";
+import Profile from "./pages/Profile";
+import Layout from "./layouts/Layout";
+import Auth from "./pages/Auth";
+import ErrorPage from "./pages/ErrorPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Auth />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: 'chat', element: <Chat /> },
+      { path: 'profile', element: <Profile /> },
+    ],
+  }
+ 
+]);
+
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 };
